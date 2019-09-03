@@ -7,8 +7,8 @@ import model.entities.Funcionario;
 
 public interface FuncionarioDao {
 	
-	void insert (Funcionario cli);
-	void update (Funcionario cli);
+	void insert (Funcionario fun);
+	void update (Funcionario fun);
 	void deleteById (Integer id);
 	Funcionario findById (Integer id);
 	List<Funcionario> findAll();
