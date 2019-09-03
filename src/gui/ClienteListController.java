@@ -118,6 +118,7 @@ public class ClienteListController implements Initializable, DataChangeListener 
 			dialogoStage.showAndWait();
 
 		} catch (IOException e) {
+			e.printStackTrace();
 			Alerts.showAlert("IO Exception", "Erro ao carregar a visualização", e.getMessage(), AlertType.ERROR);
 		}
 	}

@@ -15,16 +15,24 @@ import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.util.Callback;
+import model.entities.Cliente;
 import model.entities.Funcionario;
 import model.exceptions.ValidationException;
+import model.services.ClienteService;
 import model.services.FuncionarioService;
 
 public class FuncionarioFormController implements Initializable {
@@ -32,6 +40,8 @@ public class FuncionarioFormController implements Initializable {
 	private Funcionario entity;
 
 	private FuncionarioService service;
+
+	private ClienteService clienteService;
 
 	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 
@@ -51,6 +61,9 @@ public class FuncionarioFormController implements Initializable {
 	private TextField txtSalario;
 
 	@FXML
+	private ComboBox<Cliente> comboBoxCliente;
+
+	@FXML
 	private Label labelErroN;
 
 	@FXML
@@ -68,12 +81,15 @@ public class FuncionarioFormController implements Initializable {
 	@FXML
 	private Button btCancelar;
 
+	private ObservableList<Cliente> obsList;
+
 	public void setFuncionario(Funcionario entity) {
 		this.entity = entity;
 	}
 
-	public void setFuncionarioService(FuncionarioService service) {
+	public void setServices(FuncionarioService service, ClienteService clienteService) {
 		this.service = service;
+		this.clienteService = clienteService;
 	}
 
 	public void subscribeDataChangeListener(DataChangeListener listener) {
@@ -147,6 +163,8 @@ public class FuncionarioFormController implements Initializable {
 		Constraints.setTextFieldMaxLength(txtEmail, 60);
 		Constraints.setTextFieldDouble(txtSalario);
 		Utils.formatDatePicker(diInicio, "dd/MM/yyyy");
+		
+		initializeComboBoxCliente();
 	}
 
 	public void updateFormData() {
@@ -161,6 +179,21 @@ public class FuncionarioFormController implements Initializable {
 		if (entity.getInicio() != null) {
 			diInicio.setValue(LocalDate.ofInstant(entity.getInicio().toInstant(), ZoneId.systemDefault()));
 		}
+		if(entity.getCliente() == null) {
+			comboBoxCliente.getSelectionModel().selectFirst();
+		}
+		else {
+		comboBoxCliente.setValue(entity.getCliente());
+		}
+	}
+
+	public void loadAssociatedObjects() {
+		if (clienteService == null) {
+			throw new IllegalStateException("ClienteService está nulo!");
+		}
+		List<Cliente> list = clienteService.findAll();
+		obsList = FXCollections.observableArrayList(list);
+		comboBoxCliente.setItems(obsList);
 	}
 
 	private void setErrorMessages(Map<String, String> errors) {
@@ -172,6 +205,20 @@ public class FuncionarioFormController implements Initializable {
 				labelErroM.setText(errors.get("email"));
 			}
 		}
+	}
+
+	private void initializeComboBoxCliente() {
+		Callback<ListView<Cliente>, ListCell<Cliente>> factory = lv -> new ListCell<Cliente>() {
+
+			@Override
+			protected void updateItem(Cliente item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty ? "" : item.getEmpresa());
+				setText(empty ? "" : item.getProjeto());
+			}
+		};
+		comboBoxCliente.setCellFactory(factory);
+		comboBoxCliente.setButtonCell(factory.call(null));
 	}
 
 }
