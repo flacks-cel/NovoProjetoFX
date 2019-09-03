@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -24,6 +27,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Funcionario;
 import model.services.FuncionarioService;
@@ -105,27 +110,27 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 	}
 
 	private void criaDialogoFormu(Funcionario obj, String absoluteName, Stage parentStage) {
-//		try {
-//			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-//			Pane pane = loader.load();
-//
-//			FuncionarioFormController controller = loader.getController();
-//			controller.setFuncionario(obj);
-//			controller.setFuncionarioService(new FuncionarioService());
-//			controller.subscribeDataChangeListener(this);
-//			controller.updateFormData();
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			Pane pane = loader.load();
 
-//			Stage dialogoStage = new Stage();
-//			dialogoStage.setTitle("Insira os dados do cliente");
-//			dialogoStage.setScene(new Scene(pane));
-//			dialogoStage.setResizable(false);
-//			dialogoStage.initOwner(parentStage);
-//			dialogoStage.initModality(Modality.WINDOW_MODAL);
-//			dialogoStage.showAndWait();
+			FuncionarioFormController controller = loader.getController();
+			controller.setFuncionario(obj);
+			controller.setFuncionarioService(new FuncionarioService());
+			controller.subscribeDataChangeListener(this);
+			controller.updateFormData();
 
-//		} catch (IOException e) {
-//			Alerts.showAlert("IO Exception", "Erro ao carregar a visualização", e.getMessage(), AlertType.ERROR);
-//		}
+			Stage dialogoStage = new Stage();
+			dialogoStage.setTitle("Insira os dados do cliente");
+			dialogoStage.setScene(new Scene(pane));
+			dialogoStage.setResizable(false);
+			dialogoStage.initOwner(parentStage);
+			dialogoStage.initModality(Modality.WINDOW_MODAL);
+			dialogoStage.showAndWait();
+
+		} catch (IOException e) {
+			Alerts.showAlert("IO Exception", "Erro ao carregar a visualização", e.getMessage(), AlertType.ERROR);
+		}
 	}
 
 	@Override
