@@ -63,7 +63,7 @@ public class ClienteFormController implements Initializable {
 	}
 
 	@FXML
-	public void onBtSalvarAction(ActionEvent event) {
+	public void onBtSalvarAction(ActionEvent evento) {
 		if(entity == null) {
 			throw new IllegalStateException("A entity estava nula!");
 		}
@@ -74,7 +74,7 @@ public class ClienteFormController implements Initializable {
 			entity = getFormData();
 			service.saveOrUpdate(entity);
 			notifyDataChangeListeners();
-			Utils.atualStage(event).close();
+			Utils.atualStage(evento).close();
 		}
 		catch(ValidationException e) {
 			setErrorMessages(e.getErrors());

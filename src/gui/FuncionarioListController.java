@@ -1,6 +1,7 @@
 package gui;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -42,6 +43,12 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 
 	@FXML
 	private TableColumn<Funcionario, String> tableColumnEmail;
+	
+	@FXML
+	private TableColumn<Funcionario, Date> tableColumnInicio;
+	
+	@FXML
+	private TableColumn<Funcionario, Double> tableColumnSalario;
 
 	@FXML
 	private TableColumn<Funcionario, Funcionario> tableColumnEDIT;
@@ -75,6 +82,10 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+		tableColumnInicio.setCellValueFactory(new PropertyValueFactory<>("inicio"));
+		Utils.formatTableColumnDate(tableColumnInicio, "dd/MM/yyyy");
+		tableColumnSalario.setCellValueFactory(new PropertyValueFactory<>("salario"));
+		Utils.formatTableColumnDouble(tableColumnSalario, 2);
 
 		Stage stage = (Stage) Main.getMainScene().getWindow();
 		tableViewFuncionario.prefHeightProperty().bind(stage.heightProperty());
