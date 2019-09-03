@@ -31,4 +31,7 @@ nbbuild/
 dist/
 nbdist/
 
+#eclipse
+
+.settings/
 
