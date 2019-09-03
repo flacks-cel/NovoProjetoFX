@@ -110,7 +110,7 @@ public class ClienteListController implements Initializable, DataChangeListener 
 			controller.updateFormData();
 
 			Stage dialogoStage = new Stage();
-			dialogoStage.setTitle("Insira os dados do cliente");
+			dialogoStage.setTitle("Insira a empresa e o projeto");
 			dialogoStage.setScene(new Scene(pane));
 			dialogoStage.setResizable(false);
 			dialogoStage.initOwner(parentStage);

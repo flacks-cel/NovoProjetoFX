@@ -121,7 +121,7 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 			controller.updateFormData();
 
 			Stage dialogoStage = new Stage();
-			dialogoStage.setTitle("Insira os dados do cliente");
+			dialogoStage.setTitle("Insira os dados do funcionário");
 			dialogoStage.setScene(new Scene(pane));
 			dialogoStage.setResizable(false);
 			dialogoStage.initOwner(parentStage);

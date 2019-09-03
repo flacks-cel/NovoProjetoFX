@@ -147,7 +147,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 		obj.setId(rs.getInt("Id"));
 		obj.setNome(rs.getString("Nome"));
 		obj.setEmail(rs.getString("Email"));
-		obj.setInicio(rs.getDate("Inicio"));
+		obj.setInicio(new java.util.Date(rs.getTimestamp("iNICIO").getTime()));
 		obj.setSalario(rs.getDouble("Salario"));
 		obj.setCliente(cli);
 		return obj;
